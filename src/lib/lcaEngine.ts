@@ -1,4 +1,4 @@
-import type { InputParams, LcaFactors, LcaResult } from '../types';
+import type { InputParams, LcaFactors, LcaResult } from '../types.ts';
 import allFactors from '../data/lcaFactors.json';
 
 // ===================================================================
@@ -126,7 +126,7 @@ function generateSankeyData(inputs: InputParams) {
 // main orchestrator fn: runs everything and spits out a full LCA result.
 // ===================================================================
 export function calculateLCA(inputs: InputParams): LcaResult {
-    const factors: LcaFactors = allFactors[inputs.metal];
+    const factors: LcaFactors = (allFactors as Record<string, LcaFactors>)[inputs.metal];
     const impacts = computeImpacts(inputs, factors);
     const circularityIndex = computeCircularityIndex(inputs, factors);
     const sankeyData = generateSankeyData(inputs);
